@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
   res.send(data);
 });
 
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const { username, email, password } = req.body;
   if (!email || !password)
     console.log({
@@ -24,16 +24,7 @@ router.get("/login", async (req, res) => {
       message: "Please Provide all the data in the form ",
     });
 
-  const check_password = await global.db.collection("Users").findOne(password);
-  const check_email = await global.db.collection("Users").findOne(email);
-  if (!check_email || !check_password) {
-    return {
-      result: false,
-      message: "The E-mail or password provided are not correct ",
-    };
-  }
   const data = await global.broker.call("auth.login", {
-    username,
     email,
     password,
   });
