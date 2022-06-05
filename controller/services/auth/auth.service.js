@@ -41,26 +41,14 @@ module.exports = {
       if (!email || !password)
         return { result: false, message: ERRORS.MISSING_PARAMETER };
 
-      const check_email = await global.db
-        .collection("Users")
-        .find({ email })
-        .project({ email: 1, _id: 0 })
-        .toArray();
+      const user = await global.db.collection("Users").findOne({ email });
+      const { userEmail = user.email, userPassword = user.password } = user;
 
-      const check_password = await global.db
-        .collection("Users")
-        .find({ password })
-        .project({ password: 1, _id: 0 });
+      const compared_password = await bcrypt.compare(password, userPassword);
 
-      if (!check_email || !check_password) {
+      if (email !== userEmail || compared_password === false) {
         return { result: false, message: ERRORS.WRONG_CREDENTIALS };
       }
-
-      //TODO CAPIRE PERCHè MI RITORNA UNDEFINED
-      const user_password = check_password[0].password;
-      console.log(password, user_password);
-      const isMatch = bcrypt.compare(password, user_password);
-      if (!isMatch) return { result: false, message: ERRORS.WRONG_CREDENTIALS };
 
       return { result: true, message: "Utente loggato con successo " };
     },
