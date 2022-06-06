@@ -1,5 +1,5 @@
 require("dotenv").config({ path: "./config.env" });
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient } = require("mongodb");
 const express = require("express");
 const { ServiceBroker } = require("moleculer");
 const AUTH_SERVICE = require("./controller/services/auth/auth.service");
