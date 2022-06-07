@@ -1,21 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+require("dotenv").config({ path: "../config.env" });
 
 // todo FAR  FUNZIONARE STO CAZZO DI MIDDLEWARE
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.header["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) return res.sendStatus(401);
-  jwt.verify(token, process.env.ACCESS_TOKEN, (err, user) => {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) return res.sendStatus(401);
+  const bearerToken = authHeader.split(" ");
+  const token = bearerToken[1];
+
+  jwt.verify(token, process.env.ACCESS_TOKEN, (err, payload) => {
     if (err) {
-      return res.sendStatus(403);
+      return res.send("pippo");
     }
-    req.user = user;
+    req.payload = payload;
     next();
   });
 };
+
+router.get("/test", authenticateToken, async (req, res) => {
+  res.send("wewe sono entrato gni gni");
+});
 
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
@@ -32,8 +38,9 @@ router.post("/register", async (req, res) => {
   res.send(data);
 });
 
-router.post("/login", authenticateToken, async (req, res) => {
-  const { username, email, password } = req.body;
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
   if (!email || !password)
     console.log({
       result: false,
@@ -46,7 +53,7 @@ router.post("/login", authenticateToken, async (req, res) => {
   });
   console.log(data);
 
-  res.send(data.filter((datas) => datas.email === req.user.name));
+  res.send(data);
 });
 
 router.get("/forgotpassword", async (req, res) => {

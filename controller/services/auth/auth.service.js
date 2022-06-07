@@ -71,7 +71,11 @@ module.exports = {
 
       const accessToken = jwt.sign(userUCode, ACCESS_TOKEN);
 
-      return { result: true, message: "Utente loggato con successo " };
+      return {
+        result: true,
+        message: "Utente loggato con successo",
+        token: accessToken,
+      };
     },
     forgotpassword() {
       return {
