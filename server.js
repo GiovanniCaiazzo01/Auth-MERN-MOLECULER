@@ -21,6 +21,7 @@ const start = async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
+
   global.db = dba.db("Auth");
 
   try {

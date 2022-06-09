@@ -57,12 +57,12 @@ module.exports = {
       }
 
       const user = await global.db.collection("Users").findOne({ email });
+      if (!user) return { result: false, message: ERRORS.WRONG_CREDENTIALS };
       const {
         userEmail = user.email,
         userPassword = user.password,
         userUCode = user.UCODE,
       } = user;
-
       const compared_password = await bcrypt.compare(password, userPassword);
 
       if (email !== userEmail || compared_password === false) {
