@@ -38,6 +38,9 @@ router.post("/register", async (req, res) => {
   res.send(data);
 });
 
+// 1) BISOGNA AGGIUNGERE UN EXPIRE DEL TOKEN
+// 2) UNA VOLTA SCADUTO BISONGA RICREARNO UN ALTRO
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 

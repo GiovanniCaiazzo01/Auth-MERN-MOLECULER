@@ -83,6 +83,8 @@ module.exports = {
         token: accessToken,
       };
     },
+
+    //TODO FINIRE IL SEND EMAIL PER IL FORGOT PASSWORD
     async forgotpassword(ctx) {
       const { email } = ctx.params;
       if (!email) return { result: false, message: ERRORS.MISSING_PARAMETER };
