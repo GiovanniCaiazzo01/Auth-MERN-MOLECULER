@@ -1,10 +1,12 @@
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const ERRORS = {
   MISSING_PARAMETER: "Please insert all parameeter",
   USER_EXIST: "A user with this username already exists ",
+  USER_NOT_EXIST: "There is no use with this E-mail",
   EMAIL_EXIST: "This email it's altready in use",
   WRONG_CREDENTIALS: "The E-mail or password provided are not correct",
   WRONG_PASSWORD: "Passoword not correct",
@@ -17,6 +19,10 @@ const generateUniqueCode = async () => {
   return await uuidv4();
 };
 
+const generete_hash_password = async () => {
+  const token = await crypto.randomBytes(20).toString("hex");
+  return await hashPassword(token);
+};
 module.exports = {
   name: "auth",
   actions: {
@@ -77,11 +83,31 @@ module.exports = {
         token: accessToken,
       };
     },
-    forgotpassword() {
-      return {
-        result: true,
-        message: "Hai chiamato il microServizio Forgot Password",
-      };
+    async forgotpassword(ctx) {
+      const { email } = ctx.params;
+      if (!email) return { result: false, message: ERRORS.MISSING_PARAMETER };
+
+      const userEmail = await global.db.collection("Users").findOne({ email });
+      if (!userEmail) {
+        return { result: "false", message: ERRORS.USER_NOT_EXIST };
+      }
+
+      const haveToken = await global.db
+        .collection("Users")
+        .findOne({}, { projection: { _id: 0, refresh_token: 1 } });
+      if (haveToken) {
+        await global.db
+          .collection("Users")
+          .deleteOne({}, { projection: { _id: 0, token: 1 } });
+      }
+
+      const genereate_new_token = generete_hash_password();
+
+      // const ucode = await global.db
+      //   .collection("Users")
+      //   .findOne({ email }, { projection: { _id: 0, UCODE: 1 } });
+
+      return console.log("ocaz");
     },
     resetpassword() {
       return {

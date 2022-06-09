@@ -56,8 +56,12 @@ router.post("/login", async (req, res) => {
   res.send(data);
 });
 
-router.get("/forgotpassword", async (req, res) => {
-  const frg_pwd = await global.broker.call("auth.forgotpassword");
+router.post("/forgotpassword", async (req, res) => {
+  const { email } = req.body;
+
+  const frg_pwd = await global.broker.call("auth.forgotpassword", {
+    email,
+  });
   res.send(frg_pwd);
 });
 
