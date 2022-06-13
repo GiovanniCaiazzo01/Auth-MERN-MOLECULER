@@ -27,7 +27,6 @@ module.exports = {
   name: "auth",
   actions: {
     async register(ctx) {
-      console.log(ctx.params);
       const { username, email, password } = ctx.params;
 
       if (!username || !email || !password) {
@@ -75,7 +74,10 @@ module.exports = {
         return { result: false, message: ERRORS.WRONG_CREDENTIALS };
       }
 
-      const accessToken = jwt.sign(userUCode, ACCESS_TOKEN);
+      const accessToken = jwt.sign({ userUCode }, ACCESS_TOKEN, {
+        expiresIn: 20,
+        algorithm: "HS256",
+      });
 
       return {
         result: true,

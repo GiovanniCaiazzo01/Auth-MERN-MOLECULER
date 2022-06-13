@@ -25,8 +25,8 @@ router.get("/test", authenticateToken, async (req, res) => {
 
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
-  if (!email || !password)
-    console.log({
+  if (!email || !password || !username)
+    res.send({
       result: false,
       message: "Please Provide all the data in the form ",
     });
@@ -37,9 +37,6 @@ router.post("/register", async (req, res) => {
   });
   res.send(data);
 });
-
-// 1) BISOGNA AGGIUNGERE UN EXPIRE DEL TOKEN
-// 2) UNA VOLTA SCADUTO BISONGA RICREARNO UN ALTRO
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
