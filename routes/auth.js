@@ -24,7 +24,6 @@ router.get("/test", authenticateToken, async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  console.log(req.body);
   const { username, email, password } = req.body;
   if (!email || !password || !username)
     res.send({

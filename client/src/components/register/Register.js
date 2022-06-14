@@ -22,13 +22,21 @@ export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
+  const [error, setError] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const registerHandler = async () => {
+  const registerHandler = async (e) => {
+    e.preventDefault();
     const data = await axios.post("http://127.0.0.1:5000/auth/register", {
       username,
       email,
       password,
     });
+    console.log(data);
+    setError(data.data.result);
+    setErrorMessage(data.data.message);
+
+    console.log(error, errorMessage);
   };
 
   return (
@@ -49,7 +57,7 @@ export const Register = () => {
             id="email"
             name="email"
             value={email}
-            required={false}
+            required={true}
             onChange={(e) => setEmail(e.target.value)}
           />
 
@@ -58,7 +66,7 @@ export const Register = () => {
             id="password"
             name="password"
             value={password}
-            required={false}
+            required={true}
             onChange={(e) => setPassword(e.target.value)}
           />
 
@@ -74,6 +82,8 @@ export const Register = () => {
             Submit
           </button>
         </form>
+
+        {error === false ? <h1>{errorMessage}</h1> : null}
       </div>
     </>
   );
