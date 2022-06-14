@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const InputWithLabel = ({ type, id, name, value, onChange, required }) => {
   return (
@@ -23,15 +24,17 @@ export const Register = () => {
   const [confirmpassword, setConfirmpassword] = useState("");
 
   const registerHandler = async () => {
-    if (password !== confirmpassword) {
-      console.log("ocaz");
-    }
+    const data = await axios.post("http://127.0.0.1:5000/auth/register", {
+      username,
+      email,
+      password,
+    });
   };
 
   return (
     <>
       <div className="fornContainer">
-        <form>
+        <form onSubmit={registerHandler}>
           <InputWithLabel
             type="text"
             id="username"
@@ -46,7 +49,7 @@ export const Register = () => {
             id="email"
             name="email"
             value={email}
-            required={true}
+            required={false}
             onChange={(e) => setEmail(e.target.value)}
           />
 
@@ -55,7 +58,7 @@ export const Register = () => {
             id="password"
             name="password"
             value={password}
-            required={true}
+            required={false}
             onChange={(e) => setPassword(e.target.value)}
           />
 
@@ -64,10 +67,10 @@ export const Register = () => {
             id="confirmpassword"
             name="confirmpassword"
             value={confirmpassword}
-            required={true}
+            required={false}
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
-          <button type="submit" value="Submit" onSubmit={registerHandler}>
+          <button type="submit" value="Submit">
             Submit
           </button>
         </form>

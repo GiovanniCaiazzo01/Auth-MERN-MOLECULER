@@ -3,6 +3,7 @@ const { MongoClient } = require("mongodb");
 const express = require("express");
 const { ServiceBroker } = require("moleculer");
 const AUTH_SERVICE = require("./controller/services/auth/auth.service");
+const cors = require("cors");
 
 global.broker = new ServiceBroker({
   nodeID: "auth",
@@ -10,6 +11,7 @@ global.broker = new ServiceBroker({
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use("/auth", require("./routes/auth"));
 
 const { PORT, URI } = process.env || 5000;
