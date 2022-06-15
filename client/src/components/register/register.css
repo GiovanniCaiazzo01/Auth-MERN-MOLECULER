@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #2f202b;
+  background-image: linear-gradient(
+    225deg,
+    #2f202b 0%,
+    #3f2456 50%,
+    #234c6a 100%
+  );
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.form {
+  width: 200px;
+  height: 100px;
+  margin: 0 auto;
+  padding: 10px 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-label {
+  color: white;
+}

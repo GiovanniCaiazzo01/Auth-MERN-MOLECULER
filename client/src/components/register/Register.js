@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+import "./register.css";
 import InputWithLabel from "../pieces/InputWithLabel/InputWithLabel";
 export const Register = () => {
   const [username, setUsername] = useState("");
@@ -11,6 +13,7 @@ export const Register = () => {
 
   const registerHandler = async (e) => {
     e.preventDefault();
+
     const data = await axios.post("http://127.0.0.1:5000/auth/register", {
       username,
       email,
@@ -19,8 +22,6 @@ export const Register = () => {
     console.log(data);
     setError(data.data.result);
     setMessage(data.data.message);
-
-    console.log(error, message);
   };
 
   return (
@@ -59,7 +60,7 @@ export const Register = () => {
             id="confirmpassword"
             name="confirmpassword"
             value={confirmpassword}
-            required={false}
+            required={true}
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
           <button type="submit" value="Submit">
