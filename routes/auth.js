@@ -3,7 +3,6 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "../config.env" });
 
-// todo FAR FUNZIONARE STO CAZZO DI MIDDLEWARE
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   if (!authHeader) return res.sendStatus(401);

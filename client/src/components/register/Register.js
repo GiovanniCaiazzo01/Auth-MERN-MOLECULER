@@ -1,29 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-const InputWithLabel = ({ type, id, name, value, onChange, required }) => {
-  return (
-    <>
-      <label htmlFor={id}>{id}</label>
-      <input
-        type={type}
-        id={id}
-        name={name}
-        required={required}
-        value={value}
-        onChange={onChange}
-      />
-    </>
-  );
-};
-
+import InputWithLabel from "../pieces/InputWithLabel/InputWithLabel";
 export const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
   const [error, setError] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -34,9 +18,9 @@ export const Register = () => {
     });
     console.log(data);
     setError(data.data.result);
-    setErrorMessage(data.data.message);
+    setMessage(data.data.message);
 
-    console.log(error, errorMessage);
+    console.log(error, message);
   };
 
   return (
@@ -83,7 +67,7 @@ export const Register = () => {
           </button>
         </form>
 
-        {error === false ? <h1>{errorMessage}</h1> : null}
+        {error === false ? <h1>{message}</h1> : <h1>{message}</h1>}
       </div>
     </>
   );
