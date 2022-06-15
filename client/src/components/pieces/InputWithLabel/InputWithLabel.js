@@ -1,3 +1,5 @@
+import "./InputWithLabel.css";
+
 const InputWithLabel = ({ type, id, name, value, onChange, required }) => {
   return (
     <>

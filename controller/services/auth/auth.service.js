@@ -26,20 +26,17 @@ const generete_hash_password = async () => {
 module.exports = {
   name: "auth",
   actions: {
+    //TODO AGGIUNGERE CHE IN CASO UN UTENTE NON ABBIA IL JWT AL LOGIN LO CREA E LO METTE NEL DB, SE LO TIENE INVECE FA UN REFRESH
     async register(ctx) {
       const { username, email, password } = ctx.params;
 
-      if (!username || !email || !password) {
+      if (!email || !password) {
         return { result: false, message: ERRORS.MISSING_PARAMETER };
       }
-      const check_user = await global.db
-        .collection("Users")
-        .findOne({ username });
       const check_email = await global.db
         .collection("Users")
         .findOne({ email });
 
-      if (check_user) return { result: false, message: ERRORS.USER_EXIST };
       if (check_email) return { result: false, message: ERRORS.EMAIL_EXIST };
 
       const hashed_password = await hashPassword(password);
@@ -50,6 +47,7 @@ module.exports = {
         email,
         password: hashed_password,
         UCODE: unique_code,
+        role: "Babbano",
       });
       return { result: true, message: "Utente Creato con successo" };
     },
@@ -83,40 +81,6 @@ module.exports = {
         result: true,
         message: "Utente loggato con successo",
         token: accessToken,
-      };
-    },
-
-    //TODO FINIRE IL SEND EMAIL PER IL FORGOT PASSWORD
-    async forgotpassword(ctx) {
-      const { email } = ctx.params;
-      if (!email) return { result: false, message: ERRORS.MISSING_PARAMETER };
-
-      const userEmail = await global.db.collection("Users").findOne({ email });
-      if (!userEmail) {
-        return { result: "false", message: ERRORS.USER_NOT_EXIST };
-      }
-
-      const haveToken = await global.db
-        .collection("Users")
-        .findOne({}, { projection: { _id: 0, refresh_token: 1 } });
-      if (haveToken) {
-        await global.db
-          .collection("Users")
-          .deleteOne({}, { projection: { _id: 0, token: 1 } });
-      }
-
-      const genereate_new_token = generete_hash_password();
-
-      // const ucode = await global.db
-      //   .collection("Users")
-      //   .findOne({ email }, { projection: { _id: 0, UCODE: 1 } });
-
-      return console.log("ocaz");
-    },
-    resetpassword() {
-      return {
-        result: true,
-        message: "Hai chiamato il microServizio Reset Password",
       };
     },
   },

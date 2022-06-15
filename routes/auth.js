@@ -24,7 +24,7 @@ router.get("/test", authenticateToken, async (req, res) => {
 
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
-  if (!email || !password || !username)
+  if (!email || !password)
     res.send({
       result: false,
       message: "Please Provide all the data in the form ",
@@ -53,20 +53,6 @@ router.post("/login", async (req, res) => {
   console.log(data);
 
   res.send(data);
-});
-
-router.post("/forgotpassword", async (req, res) => {
-  const { email } = req.body;
-
-  const frg_pwd = await global.broker.call("auth.forgotpassword", {
-    email,
-  });
-  res.send(frg_pwd);
-});
-
-router.get("/resetpassword", async (req, res) => {
-  const rest_pwd = await global.broker.call("auth.resetpassword");
-  res.send(rest_pwd);
 });
 
 module.exports = router;

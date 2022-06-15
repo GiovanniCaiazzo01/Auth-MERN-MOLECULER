@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-
-import "./register.css";
 import InputWithLabel from "../pieces/InputWithLabel/InputWithLabel";
+import Button from "../pieces/Button/Button";
+import { GeneralError } from "../pieces/GeneralError/GeneralError";
+import {} from "../pieces/GeneralError/GeneralError";
+import "./register.css";
+
 export const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -26,7 +29,7 @@ export const Register = () => {
 
   return (
     <>
-      <div className="fornContainer">
+      <div className="form-container">
         <form onSubmit={registerHandler}>
           <InputWithLabel
             type="text"
@@ -63,13 +66,11 @@ export const Register = () => {
             required={true}
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
-          <button type="submit" value="Submit">
-            Submit
-          </button>
+          <Button text="Registrati" />
         </form>
-
-        {error === false ? <h1>{message}</h1> : <h1>{message}</h1>}
       </div>
+
+      {error === false ? <GeneralError text={message} /> : <h1>{message}</h1>}
     </>
   );
 };

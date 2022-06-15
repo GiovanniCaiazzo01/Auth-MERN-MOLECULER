@@ -1,0 +1,10 @@
+.error-container {
+  background-color: red;
+  width: 400px;
+  text-align: center;
+  border-radius: 21px;
+  margin: 0 auto;
+}
+p {
+  color: white;
+}
