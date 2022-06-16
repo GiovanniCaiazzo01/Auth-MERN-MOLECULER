@@ -3,7 +3,6 @@ import axios from "axios";
 import InputWithLabel from "../pieces/InputWithLabel/InputWithLabel";
 import Button from "../pieces/Button/Button";
 import { GeneralError } from "../pieces/GeneralError/GeneralError";
-import {} from "../pieces/GeneralError/GeneralError";
 import "./register.css";
 
 export const Register = () => {
@@ -11,12 +10,12 @@ export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
 
+  // AGGIUNGERE DEI CONTROLLI CHE FUNZIONANO E BLOCCANO LA FETCH IN CASO DI ERRORE
   const registerHandler = async (e) => {
     e.preventDefault();
-
     const data = await axios.post("http://127.0.0.1:5000/auth/register", {
       username,
       email,
