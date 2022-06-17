@@ -3,6 +3,7 @@ import axios from "axios";
 import InputWithLabel from "../pieces/InputWithLabel/InputWithLabel";
 import Button from "../pieces/Button/Button";
 import { GeneralError } from "../pieces/GeneralError/GeneralError";
+import { NavLink } from "react-router-dom";
 import "./register.css";
 
 export const Register = () => {
@@ -28,46 +29,50 @@ export const Register = () => {
 
   return (
     <>
-      <div className="form-container">
-        <form onSubmit={registerHandler}>
-          <InputWithLabel
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            required={false}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+      <form className="form-container" onSubmit={registerHandler}>
+        <InputWithLabel
+          type="text"
+          id="username"
+          name="username"
+          value={username}
+          required={false}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-          <InputWithLabel
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            required={true}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        <InputWithLabel
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          required={true}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-          <InputWithLabel
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            required={true}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <InputWithLabel
+          type="password"
+          id="password"
+          name="password"
+          value={password}
+          required={true}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-          <InputWithLabel
-            type="password"
-            id="confirmpassword"
-            name="confirmpassword"
-            value={confirmpassword}
-            required={true}
-            onChange={(e) => setConfirmpassword(e.target.value)}
-          />
-          <Button text="Registrati" />
-        </form>
-      </div>
+        <InputWithLabel
+          type="password"
+          id="confirmpassword"
+          name="confirmpassword"
+          value={confirmpassword}
+          required={true}
+          onChange={(e) => setConfirmpassword(e.target.value)}
+        />
+        <Button text="Registrati" />
+      </form>
+      <NavLink
+        to="/login"
+        className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}
+      >
+        Login{" "}
+      </NavLink>
 
       {error === false ? <GeneralError text={message} /> : <h1>{message}</h1>}
     </>

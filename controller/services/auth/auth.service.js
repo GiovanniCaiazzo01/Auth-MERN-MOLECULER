@@ -26,7 +26,6 @@ const generete_hash_password = async () => {
 module.exports = {
   name: "auth",
   actions: {
-    //TODO AGGIUNGERE CHE IN CASO UN UTENTE NON ABBIA IL JWT AL LOGIN LO CREA E LO METTE NEL DB, SE LO TIENE INVECE FA UN REFRESH
     async register(ctx) {
       const { username, email, password } = ctx.params;
 
