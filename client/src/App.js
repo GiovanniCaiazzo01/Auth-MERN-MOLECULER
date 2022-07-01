@@ -5,17 +5,7 @@ import Home from "./components/Home/Home";
 import "./app.css";
 
 const App = () => {
-  return (
-    <Router>
-      <div className="app">
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
-        </Routes>
-      </div>
-    </Router>
-  );
+  return <div className="app"></div>;
 };
 
 export default App;
