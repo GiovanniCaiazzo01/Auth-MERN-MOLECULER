@@ -1,11 +1,12 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from "./components/login/Login";
-import { Register } from "./components/register/Register";
-import Home from "./components/Home/Home";
 import "./app.css";
+import Login from "./components/Login/Login";
 
 const App = () => {
-  return <div className="app"></div>;
+  return (
+    <div className="app">
+      <Login />
+    </div>
+  );
 };
 
 export default App;
