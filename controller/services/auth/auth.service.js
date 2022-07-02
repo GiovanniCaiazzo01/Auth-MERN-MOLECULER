@@ -32,22 +32,31 @@ module.exports = {
       if (!email || !password) {
         return { result: false, message: ERRORS.MISSING_PARAMETER };
       }
-      const check_email = await global.db
-        .collection("Users")
-        .findOne({ email });
 
-      if (check_email) return { result: false, message: ERRORS.EMAIL_EXIST };
+      try {
+        const check_email = await global.db
+          .collection("Users")
+          .findOne({ email });
+        if (check_email) return { result: false, message: ERRORS.EMAIL_EXIST };
+      } catch (error) {
+        console.log(error);
+      }
 
       const hashed_password = await hashPassword(password);
       const unique_code = await generateUniqueCode();
 
-      await global.db.collection("Users").insertOne({
-        username,
-        email,
-        password: hashed_password,
-        UCODE: unique_code,
-        role: "Babbano",
-      });
+      try {
+        await global.db.collection("Users").insertOne({
+          username,
+          email,
+          password: hashed_password,
+          UCODE: unique_code,
+          role: "Babbano",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
       return { result: true, message: "Utente Creato con successo" };
     },
     async login(ctx) {
@@ -58,34 +67,36 @@ module.exports = {
         return { result: false, message: ERRORS.MISSING_PARAMETER };
       }
 
-      const user = await global.db.collection("Users").findOne({ email });
-      if (!user) return { result: false, message: ERRORS.WRONG_CREDENTIALS };
+      try {
+        const user = await global.db.collection("Users").findOne({ email });
+        if (!user) return { result: false, message: ERRORS.WRONG_CREDENTIALS };
+        const {
+          userEmail = user.email,
+          userPassword = user.password,
+          userUCode = user.UCODE,
+        } = user;
 
-      const {
-        userEmail = user.email,
-        userPassword = user.password,
-        userUCode = user.UCODE,
-      } = user;
+        const compared_password = await bcrypt.compare(password, userPassword);
 
-      const compared_password = await bcrypt.compare(password, userPassword);
+        if (email !== userEmail || compared_password === false) {
+          return { result: false, message: ERRORS.WRONG_CREDENTIALS };
+        }
 
-      if (email !== userEmail || compared_password === false) {
-        return { result: false, message: ERRORS.WRONG_CREDENTIALS };
+        const accessToken = jwt.sign({ userUCode }, ACCESS_TOKEN, {
+          expiresIn: 20,
+          algorithm: "HS256",
+        });
+        await global.db
+          .collection("Users")
+          .updateOne({ UCODE: userUCode }, { $set: { token: accessToken } });
+        return {
+          result: true,
+          message: "Utente loggato con successo",
+          token: accessToken,
+        };
+      } catch (error) {
+        console.log(error);
       }
-
-      const accessToken = jwt.sign({ userUCode }, ACCESS_TOKEN, {
-        expiresIn: 20,
-        algorithm: "HS256",
-      });
-
-      await global.db
-        .collection("Users")
-        .updateOne({ UCODE: userUCode }, { $set: { token: accessToken } });
-      return {
-        result: true,
-        message: "Utente loggato con successo",
-        token: accessToken,
-      };
     },
   },
 };
