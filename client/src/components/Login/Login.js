@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import "antd/dist/antd.css";
 import { Button, Checkbox, Form, Input } from "antd";
+import axios from "axios";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleLogin = () => {
+    const data = axios.post("http://localhost:5000/auth/login", {
+      username,
+      password,
+    });
+
+    console.log(data);
+  };
+
+  const handleUsername = (e) => {
+    setUsername(e);
+  };
+
+  const handlePassword = (e) => {
+    setPassword(e);
+  };
+
   return (
     <Form
       name="basic"
@@ -12,10 +34,9 @@ const Login = () => {
       wrapperCol={{
         span: 16,
       }}
-      initialValues={{
-        remember: true,
-      }}
       autoComplete="off"
+      size="small"
+      onFinish={handleLogin}
     >
       <Form.Item
         label="Username"
@@ -23,9 +44,10 @@ const Login = () => {
         rules={[
           {
             required: true,
-            message: "Please input your username!",
+            message: {},
           },
         ]}
+        getValueFromEvent={handleUsername}
       >
         <Input />
       </Form.Item>
@@ -36,31 +58,21 @@ const Login = () => {
         rules={[
           {
             required: true,
-            message: "Please input your password!",
+            message: {},
           },
         ]}
+        getValueFromEvent={handlePassword}
       >
         <Input.Password />
       </Form.Item>
 
       <Form.Item
-        name="remember"
-        valuePropName="checked"
         wrapperCol={{
           offset: 8,
           span: 16,
         }}
       >
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
-
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" onClick={handleLogin}>
           Submit
         </Button>
       </Form.Item>
