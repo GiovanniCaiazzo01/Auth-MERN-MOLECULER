@@ -6,7 +6,7 @@ import axios from "axios";
 import "antd/dist/antd.css";
 import "./login.css";
 
-const Login = () => {
+const Login = (canLogin) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -21,10 +21,6 @@ const Login = () => {
 
     const res = data.data;
     setResult(res.result);
-    if (result) {
-      setMessage(res.message);
-    }
-    setMessage(res.message);
   };
 
   return (

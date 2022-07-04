@@ -4,7 +4,7 @@ import Login from "./components/Login/Login";
 const App = () => {
   return (
     <div className="app">
-      <Login />
+      <Login canLogin={false} />
     </div>
   );
 };
