@@ -1,82 +1,55 @@
 import React, { useState } from "react";
-import "antd/dist/antd.css";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Row, Col, Card, Input, Space, Button } from "antd";
+
 import axios from "axios";
+import "antd/dist/antd.css";
+import "./login.css";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    const data = axios.post("http://localhost:5000/auth/login", {
-      username,
+  const handleLogin = async () => {
+    const data = await axios.post("http://localhost:5000/auth/login", {
+      email,
       password,
     });
 
-    console.log(data);
-  };
-
-  const handleUsername = (e) => {
-    setUsername(e);
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e);
+    const res = data.data;
+    setMessage(res.message);
   };
 
   return (
-    <Form
-      name="basic"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
-      autoComplete="off"
-      size="small"
-      onFinish={handleLogin}
+    <Row
+      type="flex"
+      justify="center"
+      align="middle"
+      style={{ minHeight: "100vh" }}
     >
-      <Form.Item
-        label="Username"
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: {},
-          },
-        ]}
-        getValueFromEvent={handleUsername}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: {},
-          },
-        ]}
-        getValueFromEvent={handlePassword}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
-        <Button type="primary" htmlType="submit" onClick={handleLogin}>
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+      <Col span={4}>
+        <Card>
+          <form>
+            <Space direction="vertical" size={"middle"}>
+              <Input
+                onChange={(e) => setEmail(e.target.value)}
+                allowClear={true}
+                defaultValue="Email"
+                addonBefore="Email"
+              />
+              <Input.Password
+                onChange={(e) => setPassword(e.target.value)}
+                allowClear={true}
+                defaultValue="Password"
+                addonBefore="Password"
+              />
+              <Button onClick={handleLogin}>Login</Button>
+            </Space>
+          </form>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 
