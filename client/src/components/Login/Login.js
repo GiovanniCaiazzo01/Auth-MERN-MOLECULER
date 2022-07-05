@@ -7,11 +7,12 @@ import axios from "axios";
 import "antd/dist/antd.css";
 import "./login.css";
 
-const Login = (isLoggedIn) => {
+const Login = ({ haveToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [result, setResult] = useState(false);
+  const [token, setToken] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
@@ -23,6 +24,7 @@ const Login = (isLoggedIn) => {
     const res = data.data;
     setResult(res.result);
     setMessage(res.message);
+    haveToken(res.token);
   };
 
   return (
