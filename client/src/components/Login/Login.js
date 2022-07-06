@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { Row, Col, Card, Input, Space, Button } from "antd";
-
 import Messages from "../pieces/Messages/Messages";
+import { Navigate } from "react-router-dom";
 
 import axios from "axios";
 import "antd/dist/antd.css";
 import "./login.css";
+
+// const setState = async (setResult, setMessage, setToken, res) => {
+//   await setResult(res.result);
+//   await setMessage(res.message);
+//   await setToken(res.token);
+// };
 
 const Login = ({ haveToken }) => {
   const [email, setEmail] = useState("");
@@ -22,11 +28,17 @@ const Login = ({ haveToken }) => {
     });
 
     const res = data.data;
+    // await setState(setResult, setMessage, setToken, res);
     setResult(res.result);
     setMessage(res.message);
+    setToken(res.token);
     haveToken(res.token);
   };
 
+  if (token) {
+    console.log(token);
+    <Navigate to="/" />;
+  }
   return (
     <Row
       type="flex"
@@ -41,13 +53,13 @@ const Login = ({ haveToken }) => {
               <Input
                 onChange={(e) => setEmail(e.target.value)}
                 allowClear={true}
-                defaultValue="Email"
+                defaultValue="bello@gmail.com"
                 addonBefore="Email"
               />
               <Input.Password
                 onChange={(e) => setPassword(e.target.value)}
                 allowClear={true}
-                defaultValue="Password"
+                defaultValue="1"
                 addonBefore="Password"
               />
               <Button onClick={handleLogin}>Login</Button>
