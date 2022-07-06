@@ -12,11 +12,11 @@ const App = () => {
   const haveToken = (token) => {
     setUserToken(token);
   };
-  console.log("[APP]", userToken);
+
   return (
     <div className="app">
       <Routes>
-        <Route element={<PrivateRoute haveToken={userToken} />}>
+        <Route element={<PrivateRoute token={userToken} />}>
           <Route path="/" element={<Home />} exact />
         </Route>
         <Route path="/login" element={<Login haveToken={haveToken} />} />
