@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 
-const PrivateRoute = ({ userToken }) => {
-  const [token, setToken] = useState("");
-  setToken(userToken);
+const PrivateRoute = ({ haveToken }) => {
+  const [token, setToken] = useState(false);
+  useEffect(() => {
+    haveToken ? setToken(true) : setToken(false);
+  }, [haveToken]);
 
-  return token ? <Outlet /> : <Navigate to="/login" />;
+  return token === true ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

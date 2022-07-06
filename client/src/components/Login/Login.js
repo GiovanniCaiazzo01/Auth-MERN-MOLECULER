@@ -35,10 +35,6 @@ const Login = ({ haveToken }) => {
     haveToken(res.token);
   };
 
-  if (token) {
-    console.log(token);
-    <Navigate to="/" />;
-  }
   return (
     <Row
       type="flex"
