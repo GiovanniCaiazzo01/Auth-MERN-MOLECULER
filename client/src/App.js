@@ -7,17 +7,16 @@ import Home from "./components/Home/Home";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 const App = () => {
-  const [token, setToken] = useState("");
-  console.log("token nel padre", token);
+  const [userToken, setUserToken] = useState("");
 
-  const haveToken = (res) => {
-    setToken(res);
+  const haveToken = (token) => {
+    setUserToken(token);
   };
-
+  console.log("[APP]", userToken);
   return (
     <div className="app">
       <Routes>
-        <Route element={<PrivateRoute token={token} />}>
+        <Route element={<PrivateRoute haveToken={userToken} />}>
           <Route path="/" element={<Home />} exact />
         </Route>
         <Route path="/login" element={<Login haveToken={haveToken} />} />
