@@ -6,23 +6,21 @@ import axios from "axios";
 import "antd/dist/antd.css";
 import "./login.css";
 
-const Login = () => {
+const Login = ({ retriveData }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [result, setResult] = useState(false);
+  const [token, setToken] = useState("");
 
-  const handleLogin = async () => {
-    const data = await axios.post("http://localhost:5000/auth/login", {
-      email,
-      password,
-    });
-
-    const res = data.data;
-    // await setState(setResult, setMessage, setToken, res);
-    setResult(res.result);
-    setMessage(res.message);
+  const data = {
+    email,
+    password,
+    message,
+    result,
+    token,
   };
+  retriveData(data);
 
   return (
     <Row
@@ -47,7 +45,7 @@ const Login = () => {
                 defaultValue="1"
                 addonBefore="Password"
               />
-              <Button onClick={handleLogin}>Login</Button>
+              <Button onClick={retriveData}>Login</Button>
 
               {result === false ? (
                 <Messages type={"error"} message={message} />
