@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import { Row, Col, Card, Input, Space, Button } from "antd";
 import Messages from "../pieces/Messages/Messages";
-import { Navigate } from "react-router-dom";
 
 import axios from "axios";
 import "antd/dist/antd.css";
 import "./login.css";
 
-const Login = ({ haveToken, ...props }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [result, setResult] = useState(false);
-  const [token, setToken] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     const data = await axios.post("http://localhost:5000/auth/login", {
@@ -25,8 +22,6 @@ const Login = ({ haveToken, ...props }) => {
     // await setState(setResult, setMessage, setToken, res);
     setResult(res.result);
     setMessage(res.message);
-    setToken(res.token);
-    haveToken(res.token);
   };
 
   return (
@@ -63,7 +58,6 @@ const Login = ({ haveToken, ...props }) => {
           </form>
         </Card>
       </Col>
-      <p>{props.text}</p>
     </Row>
   );
 };
