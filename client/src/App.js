@@ -1,6 +1,6 @@
 import "./app.css";
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, createContext } from "react";
 
 import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
@@ -12,11 +12,11 @@ const App = () => {
   const haveToken = (token) => {
     setUserToken(token);
   };
-  console.log("[APP]", userToken);
+
   return (
     <div className="app">
       <Routes>
-        <Route element={<PrivateRoute haveToken={userToken} />}>
+        <Route element={<PrivateRoute />}>
           <Route path="/" element={<Home />} exact />
         </Route>
         <Route path="/login" element={<Login haveToken={haveToken} />} />

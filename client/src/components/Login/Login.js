@@ -7,13 +7,7 @@ import axios from "axios";
 import "antd/dist/antd.css";
 import "./login.css";
 
-// const setState = async (setResult, setMessage, setToken, res) => {
-//   await setResult(res.result);
-//   await setMessage(res.message);
-//   await setToken(res.token);
-// };
-
-const Login = ({ haveToken }) => {
+const Login = ({ haveToken, ...props }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -35,10 +29,6 @@ const Login = ({ haveToken }) => {
     haveToken(res.token);
   };
 
-  if (token) {
-    console.log(token);
-    <Navigate to="/" />;
-  }
   return (
     <Row
       type="flex"
@@ -73,6 +63,7 @@ const Login = ({ haveToken }) => {
           </form>
         </Card>
       </Col>
+      <p>{props.text}</p>
     </Row>
   );
 };

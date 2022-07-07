@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Outlet, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-const PrivateRoute = ({ userToken }) => {
-  const [token, setToken] = useState("");
-  setToken(userToken);
+const PrivateRoute = ({ children, ...props }) => {
+  const [jwt, setJwt] = useState("");
 
-  return token ? <Outlet /> : <Navigate to="/login" />;
+  console.log("private route", props);
+
+  return jwt ? children : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
