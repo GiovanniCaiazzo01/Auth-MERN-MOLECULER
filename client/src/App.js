@@ -16,7 +16,11 @@ const App = () => {
   return (
     <div className="app">
       <Routes>
+<<<<<<< HEAD
         <Route element={<PrivateRoute />}>
+=======
+        <Route element={<PrivateRoute token={userToken} />}>
+>>>>>>> 5c1370349da09f6b1653e294b2c648aef016292e
           <Route path="/" element={<Home />} exact />
         </Route>
         <Route path="/login" element={<Login haveToken={haveToken} />} />
