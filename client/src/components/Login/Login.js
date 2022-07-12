@@ -11,6 +11,7 @@ const Login = ({ doUser }) => {
   const [result, setResult] = useState(false);
   const [message, setMessage] = useState("");
 
+  // TODO: bisonga trovare  un modo migliore di gestire sto token frontend
   const handleLogin = async () => {
     const data = await axios.post("http://127.0.0.1:5000/auth/login", {
       email,
