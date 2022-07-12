@@ -5,9 +5,9 @@ import axios from "axios";
 import "antd/dist/antd.css";
 import "./login.css";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = ({ doUser }) => {
+  const [email, setEmail] = useState("bello@gmail.com");
+  const [password, setPassword] = useState("1");
   const [result, setResult] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -18,9 +18,9 @@ const Login = () => {
     });
 
     const res = data.data;
-
     setResult(res.result);
     setMessage(res.message);
+    doUser(res.token);
   };
 
   return (
@@ -28,7 +28,7 @@ const Login = () => {
       type="flex"
       justify="center"
       align="middle"
-      style={{ minHeight: "100vh" }}
+      style={{ minHeight: "100vh", minWidth: "50vh" }}
     >
       <Col span={4}>
         <Card>
@@ -37,13 +37,11 @@ const Login = () => {
               <Input
                 onChange={(e) => setEmail(e.target.value)}
                 allowClear={true}
-                defaultValue="bello@gmail.com"
                 addonBefore="Email"
               />
               <Input.Password
                 onChange={(e) => setPassword(e.target.value)}
                 allowClear={true}
-                defaultValue="1"
                 addonBefore="Password"
               />
               <Button onClick={handleLogin}>Login</Button>

@@ -7,15 +7,22 @@ import Home from "./components/Home/Home";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 const App = () => {
-  const [userData, setUserData] = useState();
+  const handleUserToken = (token) => {
+    localStorage.setItem("token", token);
+  };
 
   return (
     <div className="app">
       <Routes>
-        <Route element={<PrivateRoute />}>
-          <Route path="/" element={<Home />} exact />
-        </Route>
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="home"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/login" element={<Login doUser={handleUserToken} />} />
       </Routes>
     </div>
   );
