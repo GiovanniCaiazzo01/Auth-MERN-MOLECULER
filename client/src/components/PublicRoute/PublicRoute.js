@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import { Route } from "react-router-dom";
 
-const PublicRoute = ({}) => {
-  return <div>PublicRoute</div>;
+const PublicRoute = (children) => {
+  return <Route>{children}</Route>;
 };
 
 export default PublicRoute;
