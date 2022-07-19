@@ -5,7 +5,7 @@ import axios from "axios";
 import "antd/dist/antd.css";
 import "./login.css";
 
-const Login = ({ doUser }) => {
+const Login = ({ doToken }) => {
   const [email, setEmail] = useState("bello@gmail.com");
   const [password, setPassword] = useState("1");
   const [result, setResult] = useState(false);
@@ -21,7 +21,6 @@ const Login = ({ doUser }) => {
     const res = data.data;
     setResult(res.result);
     setMessage(res.message);
-    doUser(res.token);
   };
 
   return (

@@ -1,16 +1,12 @@
 import "./app.css";
 import { Routes, Route } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 
 import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 const App = () => {
-  const handleUserToken = (token) => {
-    localStorage.setItem("token", token);
-  };
-
   return (
     <div className="app">
       <Routes>
@@ -22,7 +18,7 @@ const App = () => {
             </PrivateRoute>
           }
         />
-        <Route path="/login" element={<Login doUser={handleUserToken} />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );
