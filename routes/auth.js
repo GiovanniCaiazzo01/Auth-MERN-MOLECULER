@@ -18,10 +18,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-router.get("/test", authenticateToken, async (req, res) => {
-  res.send("wewe sono entrato gni gni");
-});
-
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
   if (!email || !password)
