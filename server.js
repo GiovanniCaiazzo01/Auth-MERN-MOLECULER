@@ -2,7 +2,7 @@ require("dotenv").config({ path: "./config.env" });
 const { MongoClient } = require("mongodb");
 const express = require("express");
 const { ServiceBroker } = require("moleculer");
-const AUTH_SERVICE = require("./controller/services/auth/auth.service");
+const AUTH_SERVICE = require("./api/services/auth/auth.service");
 const cors = require("cors");
 
 global.broker = new ServiceBroker({

@@ -1,5 +1,5 @@
 import React, { lazy } from "react";
-import { Navigate, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 
 const Home = lazy(() => import("../components/Home/Home"));
@@ -18,6 +18,7 @@ const MainRoutes = () => {
           </PrivateRoute>
         }
       />
+
       {/* PUBLIC ROUTES */}
       <Route path="/login" element={<Login />} />
     </Routes>

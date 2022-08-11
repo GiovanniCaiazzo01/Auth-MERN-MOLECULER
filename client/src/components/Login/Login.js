@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Card, Input, Space, Button } from "antd";
 import Messages from "../pieces/Messages/Messages";
 import axios from "axios";
@@ -10,7 +10,7 @@ const Login = ({ doToken }) => {
   const [password, setPassword] = useState("1");
   const [result, setResult] = useState(false);
   const [message, setMessage] = useState("");
-
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
   // TODO: bisonga trovare  un modo migliore di gestire sto token frontend
   const handleLogin = async () => {
     const data = await axios.post("http://127.0.0.1:5000/auth/login", {
@@ -21,6 +21,7 @@ const Login = ({ doToken }) => {
     const res = data.data;
     setResult(res.result);
     setMessage(res.message);
+    localStorage.setItem(res.token);
   };
 
   return (
