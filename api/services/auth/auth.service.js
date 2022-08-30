@@ -19,10 +19,11 @@ const generateUniqueCode = async () => {
   return await uuidv4();
 };
 
-const generete_hash_password = async () => {
-  const token = await crypto.randomBytes(20).toString("hex");
-  return await hashPassword(token);
-};
+// const generete_hash_password = async () => {
+//   const token = await crypto.randomBytes(20).toString("hex");
+//   return await hashPassword(token);
+// };
+
 module.exports = {
   name: "auth",
   actions: {
@@ -89,6 +90,7 @@ module.exports = {
         await global.db
           .collection("Users")
           .updateOne({ UCODE: userUCode }, { $set: { token: accessToken } });
+
         return {
           result: true,
           message: "Utente loggato con successo",
