@@ -3,6 +3,7 @@ const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+
 const ERRORS = {
   MISSING_PARAMETER: "Please insert all parameeter",
   USER_EXIST: "A user with this username already exists ",
@@ -87,6 +88,7 @@ module.exports = {
           expiresIn: 20,
           algorithm: "HS256",
         });
+
         await global.db
           .collection("Users")
           .updateOne({ UCODE: userUCode }, { $set: { token: accessToken } });
