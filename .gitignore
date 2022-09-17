@@ -11,8 +11,6 @@ node_modules/
 
 # production
 /build
-/client
-client/
 # misc
 config.env
 .DS_Store
