@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const ERRORS = {
@@ -17,13 +16,8 @@ const hashPassword = async (password) => {
 };
 
 const generateUniqueCode = async () => {
-  return await uuidv4();
+  return uuidv4();
 };
-
-// const generete_hash_password = async () => {
-//   const token = await crypto.randomBytes(20).toString("hex");
-//   return await hashPassword(token);
-// };
 
 module.exports = {
   name: "auth",
@@ -84,19 +78,9 @@ module.exports = {
           return { result: false, message: ERRORS.WRONG_CREDENTIALS };
         }
 
-        const accessToken = jwt.sign({ userUCode }, ACCESS_TOKEN, {
-          expiresIn: 20,
-          algorithm: "HS256",
-        });
-
-        await global.db
-          .collection("Users")
-          .updateOne({ UCODE: userUCode }, { $set: { token: accessToken } });
-
         return {
           result: true,
           message: "Utente loggato con successo",
-          token: accessToken,
         };
       } catch (error) {
         console.log(error);
