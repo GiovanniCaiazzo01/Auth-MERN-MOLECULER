@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
+const md5 = require("md5");
 const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 
@@ -17,6 +18,11 @@ const hashPassword = async (password) => {
 
 const generateUniqueCode = async () => {
   return uuidv4();
+};
+
+// TODO: creare una generazione del token migliore
+const generateToken = async (password) => {
+  return md5(password);
 };
 
 module.exports = {
@@ -37,9 +43,9 @@ module.exports = {
       } catch (error) {
         console.log(error);
       }
-
       const hashed_password = await hashPassword(password);
       const unique_code = await generateUniqueCode();
+      const token = await generateToken(password);
 
       try {
         await global.db.collection("Users").insertOne({
@@ -47,6 +53,7 @@ module.exports = {
           email,
           password: hashed_password,
           UCODE: unique_code,
+          token,
           role: "Babbano",
         });
       } catch (error) {
@@ -57,7 +64,6 @@ module.exports = {
     },
     async login(ctx) {
       const { email, password } = ctx.params;
-      const { ACCESS_TOKEN } = process.env;
 
       if (!email || !password) {
         return { result: false, message: ERRORS.MISSING_PARAMETER };
