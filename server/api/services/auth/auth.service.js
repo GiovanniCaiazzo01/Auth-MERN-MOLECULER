@@ -12,17 +12,16 @@ const ERRORS = {
   WRONG_CREDENTIALS: "The E-mail or password provided are not correct",
   WRONG_PASSWORD: "Passoword not correct",
 };
-const hashPassword = async (password) => {
-  return await bcrypt.hash(password, 10);
+const md5Password = async (password) => {
+  return await md5(password);
 };
 
 const generateUniqueCode = async () => {
   return uuidv4();
 };
 
-// TODO: creare una generazione del token migliore
-const generateToken = async (password) => {
-  return md5(password);
+const generateToken = async () => {
+  return bcrypt.hash(uuidv4(), 10);
 };
 
 module.exports = {
@@ -43,9 +42,9 @@ module.exports = {
       } catch (error) {
         console.log(error);
       }
-      const hashed_password = await hashPassword(password);
+      const hashed_password = await md5Password(password);
       const unique_code = await generateUniqueCode();
-      const token = await generateToken(password);
+      const token = await generateToken();
 
       try {
         await global.db.collection("Users").insertOne({
@@ -63,7 +62,7 @@ module.exports = {
       return { result: true, message: "Utente Creato con successo" };
     },
     async login(ctx) {
-      const { email, password } = ctx.params;
+      let { email, password } = ctx.params;
 
       if (!email || !password) {
         return { result: false, message: ERRORS.MISSING_PARAMETER };
@@ -78,8 +77,10 @@ module.exports = {
           userUCode = user.UCODE,
         } = user;
 
-        const compared_password = await bcrypt.compare(password, userPassword);
+        password = await md5Password(password);
+        compared_password = password === userPassword;
 
+        console.log(userPassword, password);
         if (email !== userEmail || compared_password === false) {
           return { result: false, message: ERRORS.WRONG_CREDENTIALS };
         }
