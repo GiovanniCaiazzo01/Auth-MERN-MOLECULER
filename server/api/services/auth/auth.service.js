@@ -71,11 +71,7 @@ module.exports = {
       try {
         const user = await global.db.collection("Users").findOne({ email });
         if (!user) return { result: false, message: ERRORS.WRONG_CREDENTIALS };
-        const {
-          userEmail = user.email,
-          userPassword = user.password,
-          userUCode = user.UCODE,
-        } = user;
+        const { userEmail = user.email, userPassword = user.password } = user;
 
         password = await md5Password(password);
         compared_password = password === userPassword;
