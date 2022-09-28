@@ -1,7 +1,5 @@
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
 const md5 = require("md5");
-const { resolve } = require("path");
 const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 
