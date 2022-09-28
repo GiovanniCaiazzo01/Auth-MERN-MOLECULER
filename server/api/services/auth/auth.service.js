@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const md5 = require("md5");
+const { resolve } = require("path");
 const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 
@@ -13,15 +14,25 @@ const ERRORS = {
   WRONG_PASSWORD: "Passoword not correct",
 };
 const md5Password = async (password) => {
-  return await md5(password);
+  return new Promise((resolve, reject) => {
+    resolve(md5(password));
+    if (!password)
+      reject("cannot resolve the primise without passing a String");
+  });
 };
 
 const generateUniqueCode = async () => {
-  return uuidv4();
+  return new Promise((resolve, reject) => {
+    resolve(uuidv4());
+    reject("genric error");
+  });
 };
 
 const generateToken = async () => {
-  return bcrypt.hash(uuidv4(), 10);
+  return new Promise((resolve, reject) => {
+    resolve(bcrypt.hash(uuidv4(), 10));
+    reject("Generic Error");
+  });
 };
 
 module.exports = {
@@ -42,11 +53,14 @@ module.exports = {
       } catch (error) {
         console.log(error);
       }
-      const hashed_password = await md5Password(password);
-      const unique_code = await generateUniqueCode();
-      const token = await generateToken();
 
       try {
+        const hashed_password = await md5Password(password);
+
+        const unique_code = await generateUniqueCode();
+
+        const token = await generateToken();
+
         await global.db.collection("Users").insertOne({
           username,
           email,
@@ -73,8 +87,12 @@ module.exports = {
         if (!user) return { result: false, message: ERRORS.WRONG_CREDENTIALS };
         const { userEmail = user.email, userPassword = user.password } = user;
 
-        password = await md5Password(password);
-        compared_password = password === userPassword;
+        try {
+          password = await md5Password(password);
+          compared_password = password === userPassword;
+        } catch (error) {
+          console.log(error);
+        }
 
         if (email !== userEmail || compared_password === false) {
           return { result: false, message: ERRORS.WRONG_CREDENTIALS };
