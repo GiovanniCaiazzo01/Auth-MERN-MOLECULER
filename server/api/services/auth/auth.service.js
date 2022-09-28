@@ -80,7 +80,6 @@ module.exports = {
         password = await md5Password(password);
         compared_password = password === userPassword;
 
-        console.log(userPassword, password);
         if (email !== userEmail || compared_password === false) {
           return { result: false, message: ERRORS.WRONG_CREDENTIALS };
         }
